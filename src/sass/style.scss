@@ -1,0 +1,20 @@
+$color-blue: blue;
+@font-face {
+    font-family: 'custom-fonts';
+    src: url('../assets/fonts/amd-webfont.woff2') format('woff2');
+    font-weight: bold;
+}
+
+h1 {
+    color: $color-blue;
+    font-family: 'custom-fonts'
+}
+
+#font-awesome {
+    font-family: 'Poppins', sans-serif;
+}
+
+.svg-inline--fa {
+    font-size: 50px;
+    color: red;
+}
