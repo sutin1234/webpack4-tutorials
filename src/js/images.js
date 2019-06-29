@@ -7,3 +7,15 @@ image.width = 128
 image.height = 128
 image.style = 'padding: 10px;'
 area.appendChild(image)
+
+// click iamges
+image.onclick = (e) => {
+    import ('../components/myTextComponent').then(m => {
+        let myDiv = document.createElement('div');
+        myDiv.innerHTML = `
+            <h3>myText Components Title</h3>
+            <div>${m.loadText(img)}</div>
+        `;
+        area.appendChild(myDiv);
+    });
+}

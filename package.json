@@ -20,6 +20,7 @@
     },
     "homepage": "https://github.com/sutin1234/webpack4-tutorials#readme",
     "dependencies": {
+        "@babel/plugin-syntax-dynamic-import": "^7.2.0",
         "@fortawesome/fontawesome-free": "^5.9.0",
         "@fortawesome/fontawesome-svg-core": "^1.2.19",
         "@fortawesome/free-brands-svg-icons": "^5.9.0",
