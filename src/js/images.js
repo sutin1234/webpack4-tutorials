@@ -6,6 +6,7 @@ image.src = img
 image.width = 128
 image.height = 128
 image.style = 'padding: 10px;'
+image.alt = 'linux image logo'
 area.appendChild(image)
 
 // click iamges

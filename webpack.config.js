@@ -1,5 +1,7 @@
 const path = require('path');
 const HtmlWepackPlugin = require('html-webpack-plugin');
+const PreloadWebpackPlugin = require('preload-webpack-plugin');
+
 
 module.exports = {
     entry: './src/main.js',
@@ -11,6 +13,11 @@ module.exports = {
     },
     resolve: {
         extensions: ['.js', '.css', '.scss', '.sass', '.less', '.png']
+    },
+    optimization: {
+        splitChunks: {
+            chunks: 'all'
+        }
     },
     module: {
         rules: [{
@@ -70,8 +77,19 @@ module.exports = {
         filename: 'app.dev.js'
     },
     plugins: [
+
         new HtmlWepackPlugin({
-            template: './src/index.html'
+            template: './src/index.html',
+        }),
+        new PreloadWebpackPlugin({
+            rel: 'preload',
+            as(entry) {
+                if (/\.css$/.test(entry)) return 'style';
+                if (/\.(woff|woff2)$/.test(entry)) return 'font';
+                if (/\.(png|jpg)$/.test(entry)) return 'image';
+                return 'script';
+            },
+            include: 'allChunks'
         })
     ]
 }
