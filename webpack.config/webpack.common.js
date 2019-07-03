@@ -4,8 +4,7 @@ const PreloadWebpackPlugin = require('preload-webpack-plugin');
 
 
 module.exports = {
-    entry: './src/main.js',
-    'mode': 'development',
+    entry: path.resolve('./src/main.js'),
     devServer: {
         contentBase: path.join(__dirname, 'dist'),
         compress: true,
@@ -73,11 +72,10 @@ module.exports = {
         ]
     },
     'output': {
-        path: path.resolve(__dirname, 'dist'),
-        filename: 'app.dev.js'
+        path: process.env.NODE_ENV === 'production' ? path.resolve(__dirname, '../dist') : path.resolve(__dirname, '../dist'),
+        filename: process.env.NODE_ENV === 'production' ? 'app.bundle.js' : 'app.dev.js'
     },
     plugins: [
-
         new HtmlWepackPlugin({
             template: './src/index.html',
         }),
