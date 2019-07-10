@@ -1,30 +1,49 @@
 const path = require('path');
 const HtmlWepackPlugin = require('html-webpack-plugin');
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
+const miniCssExtractPlugin = require('mini-css-extract-plugin');
+const optimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
+const uglifyjsWebpackPlugin = require('uglifyjs-webpack-plugin')
+
+
+const devMode = process.env.NODE_ENV !== 'production'
 
 
 
 module.exports = {
     entry: path.resolve('./src/main.js'),
     'output': {
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, '../dist'),
     },
     resolve: {
         extensions: ['.js', '.css', '.scss', '.sass', '.less', '.png']
     },
+    optimization: {
+        minimizer: [
+            new uglifyjsWebpackPlugin({
+                cache: true,
+                parallel: true,
+                sourceMap: true
+            }),
+            new optimizeCssAssetsWebpackPlugin({
+                cssProcessorOptions: {
+                    discardComments: {
+                        removeAll: true
+                    }
+                },
+                canPrint: true
+            })
+        ]
+    },
     module: {
         rules: [{
                 test: /\.(css|scss)$/,
-                use: [{
-                        loader: 'style-loader',
-                        options: {
-                            sourceMap: true
-                        }
-                    },
+                use: [
+                    devMode ? 'style-loader' : miniCssExtractPlugin.loader,
                     {
                         loader: 'css-loader',
                         options: {
-                            sourceMap: true
+                            minimize: true
                         }
                     },
                     {
@@ -79,6 +98,10 @@ module.exports = {
                 return 'script';
             },
             include: 'allChunks'
+        }),
+        new miniCssExtractPlugin({
+            filename: 'bundle.css',
+            chunkFilename: '[id].css'
         })
     ]
 }
