@@ -1,5 +1,5 @@
 const path = require('path');
-const HtmlWepackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
 const miniCssExtractPlugin = require('mini-css-extract-plugin');
 const optimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
@@ -86,8 +86,11 @@ module.exports = {
     },
 
     plugins: [
-        new HtmlWepackPlugin({
+        new HtmlWebpackPlugin({
             template: './src/index.html',
+            minify: {
+                collapseWhitespace: true
+            }
         }),
         new PreloadWebpackPlugin({
             rel: 'preload',
