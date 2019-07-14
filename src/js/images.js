@@ -1,11 +1,14 @@
 import img from '../assets/images/dvd'
 
+
+
 const area = document.querySelector('#images')
 const image = document.createElement('img')
 image.src = img
 image.width = 128
 image.height = 128
-image.style = 'padding: 10px;'
+    //image.style = 'padding: 10px;'
+image.style = styled.button;
 image.alt = 'linux image logo'
 area.appendChild(image)
 

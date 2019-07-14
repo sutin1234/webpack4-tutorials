@@ -7,7 +7,7 @@ $color-blue: blue;
 
 h1 {
     color: $color-blue;
-    font-family: 'custom-fonts'
+    font-family: 'custom-fonts';
 }
 
 #font-awesome {
@@ -17,4 +17,18 @@ h1 {
 .svg-inline--fa {
     font-size: 50px;
     color: red;
+}
+
+.user-select {
+    user-select: none;
+    background-size: 10%;
+}
+
+:fullscreen {
+    width: 100%;
+    text-align: center;
+}
+
+:scrollbar {
+    backdrop-filter: 1;
 }

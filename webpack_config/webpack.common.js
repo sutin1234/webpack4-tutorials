@@ -57,6 +57,12 @@ module.exports = {
                         }
                     },
                     {
+                        loader: 'postcss-loader',
+                        options: {
+                            sourceMap: true
+                        }
+                    },
+                    {
                         loader: 'sass-loader',
                         options: {
                             sourceMap: true
@@ -67,14 +73,16 @@ module.exports = {
                         options: {
                             sourceMap: true
                         }
-                    }
+                    },
+
+
                 ]
             }, {
                 test: /\.js$/,
                 exclude: /(node_modules|bower_component)/,
-                use: [{
-                    loader: 'babel-loader'
-                }]
+                use: [
+                    'babel-loader', 'astroturf/loader'
+                ]
             },
             {
                 test: /\.(png|jpg|svg|gif)$/,
