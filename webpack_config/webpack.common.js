@@ -14,11 +14,21 @@ module.exports = {
     entry: path.resolve('./src/main.js'),
     'output': {
         path: path.resolve(__dirname, '../dist'),
+        // chunkFilename: '[name].js',
     },
     resolve: {
         extensions: ['.js', '.css', '.scss', '.sass', '.less', '.png']
     },
     optimization: {
+        splitChunks: {
+            // cacheGroups: {
+            //     vendor: {
+            //         name: 'vendor',
+            //         chunks: 'all',
+            //         test: /node_modules/
+            //     }
+            // }
+        },
         minimizer: [
             new uglifyjsWebpackPlugin({
                 cache: true,

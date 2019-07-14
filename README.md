@@ -1,7 +1,6 @@
 ## Webpack4 Turorials
 
-<<<<<<< HEAD
-=======
+
 
 >>>>>>> 907c1f13306b19f2008ee651c036beabbf0e82a8
 #### install NPM / YARN
