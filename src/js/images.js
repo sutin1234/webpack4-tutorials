@@ -7,8 +7,7 @@ const image = document.createElement('img')
 image.src = img
 image.width = 128
 image.height = 128
-    //image.style = 'padding: 10px;'
-image.style = styled.button;
+image.style = 'padding: 10px;'
 image.alt = 'linux image logo'
 area.appendChild(image)
 

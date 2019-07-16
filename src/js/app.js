@@ -1,4 +1,8 @@
 import * as moment from 'moment'
+import * as Modernizr from '../../modernizr';
+import * as Detectizr from 'modernizr-detectizr/libs/modernizr-detectizr.min'
+
+
 import { test, hello, summry } from '../es6/es6';
 import func from '../es6/es2015';
 import { Person } from '../es6/classes'

@@ -4,6 +4,10 @@ const PreloadWebpackPlugin = require('preload-webpack-plugin');
 const miniCssExtractPlugin = require('mini-css-extract-plugin');
 const optimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
 const uglifyjsWebpackPlugin = require('uglifyjs-webpack-plugin')
+const ModernizrWebpackPlugin = require('modernizr-webpack-plugin')
+const modernizr = require("modernizr")
+
+
 
 
 const devMode = process.env.NODE_ENV !== 'production'
@@ -17,7 +21,10 @@ module.exports = {
         // chunkFilename: '[name].js',
     },
     resolve: {
-        extensions: ['.js', '.css', '.scss', '.sass', '.less', '.png']
+        extensions: ['.js', '.css', '.scss', '.sass', '.less', '.png'],
+        alias: {
+            modernizr$: path.resolve(__dirname, "modernizr.js")
+        }
     },
     optimization: {
         splitChunks: {
@@ -80,9 +87,12 @@ module.exports = {
             }, {
                 test: /\.js$/,
                 exclude: /(node_modules|bower_component)/,
-                use: [
-                    'babel-loader', 'astroturf/loader'
-                ]
+                use: [{
+                    loader: 'babel-loader',
+                    options: {
+                        sourceMap: true
+                    }
+                }]
             },
             {
                 test: /\.(png|jpg|svg|gif)$/,
@@ -98,8 +108,8 @@ module.exports = {
                         sourceMap: true
                     }
                 }]
-            }
-
+            },
+            { test: /modernizr/, loader: 'imports-loader?this=>window!exports-loader?window.Modernizr' }
         ]
     },
 
@@ -108,7 +118,10 @@ module.exports = {
             template: './src/index.html',
             minify: {
                 collapseWhitespace: true
-            }
+            },
+            links: [
+                devMode ? 'modernizr.js' : 'modernizr-bundle.js'
+            ]
         }),
         new PreloadWebpackPlugin({
             rel: 'preload',
@@ -123,6 +136,8 @@ module.exports = {
         new miniCssExtractPlugin({
             filename: 'bundle.css',
             chunkFilename: '[id].css'
-        })
+        }),
+        //new ModernizrWebpackPlugin(modernizr_config)
+
     ]
 }
