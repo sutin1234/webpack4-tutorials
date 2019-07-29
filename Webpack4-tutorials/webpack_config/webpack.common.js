@@ -1,14 +1,12 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
-const miniCssExtractPlugin = require('mini-css-extract-plugin');
-const optimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
-const uglifyjsWebpackPlugin = require('uglifyjs-webpack-plugin')
-const ModernizrWebpackPlugin = require('modernizr-webpack-plugin')
-const modernizr = require("modernizr")
-
-
-
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
+const UglifyjsWebpackPlugin = require('uglifyjs-webpack-plugin')
+    // const ModernizrWebpackPlugin = require('modernizr-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const devMode = process.env.NODE_ENV !== 'production'
 
@@ -23,30 +21,34 @@ module.exports = {
     resolve: {
         extensions: ['.js', '.css', '.scss', '.sass', '.less', '.png'],
         alias: {
-            modernizr$: path.resolve(__dirname, "modernizr.js")
+            modernizr$: path.resolve(__dirname, 'modernizr.js')
         }
     },
     optimization: {
         splitChunks: {
-            // cacheGroups: {
-            //     vendor: {
-            //         name: 'vendor',
-            //         chunks: 'all',
-            //         test: /node_modules/
-            //     }
-            // }
+            automaticNameDelimiter: '.',
+            cacheGroups: {
+                vendor: {
+                    test: /[\/]node_modules[\/]/,
+                    priority: 1,
+                    chunks: 'all',
+                }
+            },
         },
         minimizer: [
-            new uglifyjsWebpackPlugin({
-                cache: true,
+            new TerserPlugin({
                 parallel: true,
-                sourceMap: true
+
+                terserOptions: {
+                    ecma: 6
+                }
             }),
-            new optimizeCssAssetsWebpackPlugin({
+            new OptimizeCssAssetsWebpackPlugin({
                 cssProcessorOptions: {
                     discardComments: {
                         removeAll: true
-                    }
+                    },
+
                 },
                 canPrint: true
             })
@@ -56,7 +58,7 @@ module.exports = {
         rules: [{
                 test: /\.(css|scss)$/,
                 use: [
-                    devMode ? 'style-loader' : miniCssExtractPlugin.loader,
+                    devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
                     {
                         loader: 'css-loader',
                         options: {
@@ -109,7 +111,10 @@ module.exports = {
                     }
                 }]
             },
-            { test: /modernizr/, loader: 'imports-loader?this=>window!exports-loader?window.Modernizr' }
+            {
+                test: /modernizr/,
+                loader: 'imports-loader?this=>window!exports-loader?window.Modernizr'
+            }
         ]
     },
 
@@ -133,11 +138,13 @@ module.exports = {
             },
             include: 'allChunks'
         }),
-        new miniCssExtractPlugin({
+        new MiniCssExtractPlugin({
             filename: 'bundle.css',
             chunkFilename: '[id].css'
         }),
-        //new ModernizrWebpackPlugin(modernizr_config)
-
+        new CopyWebpackPlugin([{
+            from: 'src/assets',
+            to: 'assets'
+        }])
     ]
 }
