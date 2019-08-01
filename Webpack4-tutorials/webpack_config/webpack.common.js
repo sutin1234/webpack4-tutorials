@@ -4,10 +4,8 @@ const PreloadWebpackPlugin = require('preload-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
 const UglifyjsWebpackPlugin = require('uglifyjs-webpack-plugin')
-    // const ModernizrWebpackPlugin = require('modernizr-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-
 const devMode = process.env.NODE_ENV !== 'production'
 
 
@@ -38,7 +36,6 @@ module.exports = {
         minimizer: [
             new TerserPlugin({
                 parallel: true,
-
                 terserOptions: {
                     ecma: 6
                 }
